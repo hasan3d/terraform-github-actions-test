@@ -38,6 +38,12 @@ jobs:
     outputs:
       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.TF_ACTION_WORKING_DIR }}
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
@@ -192,10 +198,8 @@ jobs:
         terraform apply -auto-approve tfplan
 
    # Logout from azure
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
+    - name: Log out from Azure
+      run: |
           az logout
           az cache purge
           az account clear
