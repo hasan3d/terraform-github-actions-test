@@ -1,7 +1,7 @@
 variable "environment" {
   description = "Environment name. Will be used along with `project_name` as a prefix for all resources."
   type        = string
-  default = "dev"
+  default     = "dev"
 }
 
 variable "aspnetcore_environment" {
@@ -18,18 +18,18 @@ variable "project_name" {
 variable "service_name" {
   description = "Service name. Will be used along with `environment` as a prefix for all resources."
   type        = string
-  default = "find-a-tp"
+  default     = "find-a-tp"
 }
 
 variable "service_offering" {
-  type = string
+  type    = string
   default = "National Tutoring Programme"
 }
 
 variable "azure_location" {
   description = "Azure location in which to launch resources."
   type        = string
-  default = "West Europe"
+  default     = "West Europe"
 }
 
 variable "tags" {
@@ -401,17 +401,17 @@ variable "key_vault_access_users" {
 }
 
 variable "subscription_id" {
-    type        = string
+  type = string
 }
 
 variable "client_secret" {
-    type        = string
+  type = string
 }
 
 variable "client_id" {
-    type        = string
+  type = string
 }
 
 variable "tenant_id" {
-    type        = string
+  type = string
 }

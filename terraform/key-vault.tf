@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "default" {
-  depends_on = [module.fatp_azure_web_app_services_hosting]
+  depends_on                  = [module.fatp_azure_web_app_services_hosting]
   name                        = "${local.service_name}-key-vault"
   location                    = local.azure_location
   resource_group_name         = module.fatp_azure_web_app_services_hosting.azurerm_resource_group_default.name
@@ -51,15 +51,15 @@ resource "azurerm_key_vault" "default" {
 }
 
 resource "azurerm_key_vault_secret" "fatpdbconnectionstring" {
-  depends_on = [azurerm_postgresql_flexible_server_database.default]
-  name            = "ConnectionStrings--FatpDatabase"
-  value           = "Server=${azurerm_postgresql_flexible_server.default.name}.postgres.database.azure.com;Database=${azurerm_postgresql_flexible_server_database.default.name};Port=5432;User Id=${azurerm_postgresql_flexible_server.default.administrator_login};Password=${azurerm_postgresql_flexible_server.default.administrator_password};Ssl Mode=Require;TrustServerCertificate=True;"
-  key_vault_id    = azurerm_key_vault.default.id
+  depends_on   = [azurerm_postgresql_flexible_server_database.default]
+  name         = "ConnectionStrings--FatpDatabase"
+  value        = "Server=${azurerm_postgresql_flexible_server.default.name}.postgres.database.azure.com;Database=${azurerm_postgresql_flexible_server_database.default.name};Port=5432;User Id=${azurerm_postgresql_flexible_server.default.administrator_login};Password=${azurerm_postgresql_flexible_server.default.administrator_password};Ssl Mode=Require;TrustServerCertificate=True;"
+  key_vault_id = azurerm_key_vault.default.id
 }
 
 resource "azurerm_key_vault_secret" "fatpredisconnectionstring" {
-  depends_on = [azurerm_redis_cache.default]
-  name            = "ConnectionStrings--FatpRedis"
-  value           = azurerm_redis_cache.default.primary_connection_string
-  key_vault_id    = azurerm_key_vault.default.id
+  depends_on   = [azurerm_redis_cache.default]
+  name         = "ConnectionStrings--FatpRedis"
+  value        = azurerm_redis_cache.default.primary_connection_string
+  key_vault_id = azurerm_key_vault.default.id
 }
