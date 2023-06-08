@@ -30,6 +30,7 @@ jobs:
   terraform-plan:
     name: 'Provision FATP into Azure via Terraform plan'
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     outputs:
       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
