@@ -71,17 +71,6 @@ jobs:
             echo "TF_STATE_KEY=${{ inputs.environment }}-terraform.tfstate" >> $GITHUB_ENV
           fi
 
-    # - name: 'Setup Terraform Backend'
-    #   run: |
-    #       echo "terraform {" > ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "  backend \"azurerm\" {" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "    resource_group_name  = \"${{ secrets.TF_STATE_RESOURCE_GROUP }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "    storage_account_name = \"${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "    container_name       = \"${{ secrets.TF_STATE_CONTAINER_NAME }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "    key                  = \"${{ env.TF_STATE_KEY }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "  }" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-    #       echo "}" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
-
     - name: 'Terraform Init'
       run: |
           export ARM_CLIENT_ID=${{ env.TF_VAR_client_id }}
@@ -222,6 +211,11 @@ jobs:
       with:
         name: tfplan
 
+    - name: List Files in Working Directory
+      run: |
+        echo "Listing files in the working directory:"
+        ls -l
+
     # Terraform Apply
     - name: Terraform Apply
       run: |
@@ -230,6 +224,11 @@ jobs:
         export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
         terraform apply -auto-approve tfplan.out
+
+    - name: Install Azure CLI
+      uses: azure/setup-azure-cli@v1
+      with:
+          version: '2.x'     
 
    # Logout from azure
     - name: Log out from Azure
