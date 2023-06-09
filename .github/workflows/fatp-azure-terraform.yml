@@ -210,6 +210,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tfplan
+        path: ${{ env.TF_ACTION_WORKING_DIR }}
 
     - name: List Files in Working Directory
       run: |
