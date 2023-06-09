@@ -23,7 +23,7 @@ env:
   TF_ACTION_WORKING_DIR: './terraform'
   TF_STATE_KEY: 'terraform.tfstate'
   TF_VAR_project_name: ${{ secrets.PROJECT_NAME }}
-  TF_VAR_key_vault_access_users: ${{ secrets.KEY_VAULT_ACCESS_USERS }}
+  TF_VAR_key_vault_access_users: $(echo ${{ secrets.KEY_VAULT_ACCESS_USERS }} | jq -r '.[]')
   TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
   TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
   TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -104,10 +104,10 @@ jobs:
         export ARM_CLIENT_SECRET=${{ env.TF_VAR_client_secret }}
         export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
+        export key_vault_access_users=${{ env.TF_VAR_key_vault_access_users }}
         terraform plan -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
-                          -var="project_name=${TF_VAR_project_name}" \
-                          -var="key_vault_access_users=${TF_VAR_key_vault_access_users}" -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+                          -var="project_name=${TF_VAR_project_name}" -detailed-exitcode -no-color -out tfplan || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         
