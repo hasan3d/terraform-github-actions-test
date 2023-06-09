@@ -117,7 +117,7 @@ jobs:
         terraform plan -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
                           -var="key_vault_access_users=${{ env.TF_VAR_key_vault_access_users }}" \
-                          -var="project_name=${TF_VAR_project_name}" -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+                          -var="project_name=${TF_VAR_project_name}" -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         
@@ -127,13 +127,18 @@ jobs:
         else 
           exit 0
         fi
-
+        
     # Save plan to artifacts  
     - name: Publish Terraform Plan
       uses: actions/upload-artifact@v3
       with:
         name: tfplan
-        path: ./tfplan
+        path: ${{ env.TF_ACTION_WORKING_DIR }}/tfplan.out
+
+    - name: List Files in Working Directory
+      run: |
+        echo "Listing files in the working directory:"
+        ls -l
         
     # Create string output of Terraform Plan
     - name: Create String Output
