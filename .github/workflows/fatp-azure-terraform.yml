@@ -144,7 +144,7 @@ jobs:
     - name: Create String Output
       id: tf-plan-string
       run: |
-        TERRAFORM_PLAN=$(terraform show -no-color tfplan)
+        TERRAFORM_PLAN=$(terraform show -no-color tfplan.out)
         
         delimiter="$(openssl rand -hex 8)"
         echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
@@ -205,7 +205,7 @@ jobs:
     - name: Download Terraform Plan
       uses: actions/download-artifact@v3
       with:
-        name: tfplan
+        name: tfplan.out
 
     # Terraform Apply
     - name: Terraform Apply
@@ -214,7 +214,7 @@ jobs:
         export ARM_CLIENT_SECRET=${{ env.TF_VAR_client_secret }}
         export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
-        terraform apply -auto-approve tfplan
+        terraform apply -auto-approve tfplan.out
 
    # Logout from azure
     - name: Log out from Azure
