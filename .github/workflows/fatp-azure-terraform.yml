@@ -73,7 +73,7 @@ jobs:
 
     - name: 'Setup Terraform Backend'
       run: |
-          echo "terraform {" >${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
+          echo "terraform {" > ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
           echo "  backend \"azurerm\" {" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
           echo "    resource_group_name  = \"${{ secrets.TF_STATE_RESOURCE_GROUP }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
           echo "    storage_account_name = \"${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}\"" >> ${{ env.TF_ACTION_WORKING_DIR }}/backend.tf
