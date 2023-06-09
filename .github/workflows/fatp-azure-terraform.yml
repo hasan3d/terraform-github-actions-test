@@ -68,7 +68,7 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "TF_STATE_KEY=pr-${{ github.event.pull_request.number }}-terraform.tfstate" >> $GITHUB_ENV
           else
-            echo "TF_STATE_KEY=terraform.tfstate" >> $GITHUB_ENV
+            echo "TF_STATE_KEY=${{ inputs.environment }}-terraform.tfstate" >> $GITHUB_ENV
           fi
 
     - name: 'Setup Terraform Backend'
