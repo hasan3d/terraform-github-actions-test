@@ -225,14 +225,12 @@ jobs:
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
         terraform apply -auto-approve tfplan.out
 
-    - name: Install Azure CLI
-      uses: azure/setup-azure-cli@v1
-      with:
-          version: '2.x'     
-
-   # Logout from azure
+    # Logout from azure
     - name: Log out from Azure
-      run: |
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
           az logout
           az cache purge
-          az account clear
+          az account clear  
