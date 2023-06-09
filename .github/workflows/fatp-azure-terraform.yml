@@ -23,7 +23,7 @@ env:
   TF_ACTION_WORKING_DIR: './terraform'
   TF_STATE_KEY: 'terraform.tfstate'
   TF_VAR_project_name: ${{ secrets.PROJECT_NAME }}
-  TF_VAR_key_vault_access_users: $(echo ${{ secrets.KEY_VAULT_ACCESS_USERS }} | jq -r '.[]')
+  TF_VAR_key_vault_access_users: $(echo ${{ secrets.KEY_VAULT_ACCESS_USERS }} | jq -c .)
   TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
   TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
   TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
