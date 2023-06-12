@@ -9,6 +9,30 @@ resource "azurerm_key_vault" "default" {
   purge_protection_enabled    = true
   enabled_for_disk_encryption = true
 
+  dynamic "access_policy" {
+    for_each = data.azuread_user.key_vault_access
+
+    content {
+      tenant_id = data.azurerm_client_config.current.tenant_id
+      object_id = data.azurerm_client_config.current.object_id
+
+      key_permissions = [
+        "Create",
+        "Get",
+      ]
+
+      secret_permissions = [
+        "Set",
+        "Get",
+        "Delete",
+        "Purge",
+        "Recover",
+        "List",
+      ]
+    }
+  }
+
+
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = module.fatp_azure_web_app_services_hosting.azurerm_linux_web_app_default[0].identity[0].principal_id

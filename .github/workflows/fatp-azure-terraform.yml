@@ -29,6 +29,7 @@ env:
   TF_VAR_postgresql_server_admin_username: ${{ secrets.POSTGRESQL_SERVER_ADMIN_USERNAME }}
   TF_VAR_postgresql_server_admin_password: ${{ secrets.POSTGRESQL_SERVER_ADMIN_PASSWORD }}
   TF_VAR_monitor_email_receivers: ${{ secrets.MONITOR_EMAIL_RECEIVERS }}
+  TF_VAR_key_vault_access_users: ${{ secrets.KEY_VAULT_ACCESS_USERS }}
 
 jobs:
   terraform-plan:
@@ -98,6 +99,7 @@ jobs:
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
         terraform plan -var-file="vars-dev.tfvars" -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
+                          -var="key_vault_access_users=${TF_VAR_key_vault_access_users}" \
                           -var="monitor_email_receivers=${TF_VAR_monitor_email_receivers}"  -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
