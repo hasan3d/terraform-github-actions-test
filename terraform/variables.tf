@@ -147,13 +147,13 @@ variable "service_log_retention" {
 variable "service_log_storage_sas_start" {
   description = "Service log sas token start date/time"
   type        = string
-  default     = ""
+  default     = timestamp()
 }
 
 variable "service_log_storage_sas_expiry" {
   description = "Service log sas token start date/time"
   type        = string
-  default     = ""
+  default     = data.external.date.result.stdout
 }
 
 variable "enable_monitoring" {
