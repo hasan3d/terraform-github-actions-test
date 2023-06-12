@@ -10,24 +10,22 @@ resource "azurerm_key_vault" "default" {
   enabled_for_disk_encryption = true
 
   access_policy {
-    content {
-      tenant_id = data.azurerm_client_config.current.tenant_id
-      object_id = data.azurerm_client_config.current.object_id
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
 
-      key_permissions = [
-        "Create",
-        "Get",
-      ]
+    key_permissions = [
+      "Create",
+      "Get",
+    ]
 
-      secret_permissions = [
-        "Set",
-        "Get",
-        "Delete",
-        "Purge",
-        "Recover",
-        "List",
-      ]
-    }
+    secret_permissions = [
+      "Set",
+      "Get",
+      "Delete",
+      "Purge",
+      "Recover",
+      "List",
+    ]
   }
 
 
