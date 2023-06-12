@@ -8,8 +8,7 @@ emailSettings_allSentToEnquirer   = true
 emailSettings_amalgamateResponses = true
 redis_cache_capacity              = 0 // 250 MB for Basic SKU
 redis_cache_sku                   = "Basic"
-enable_service_logs               = true
+enable_service_logs               = false
 enable_cdn_frontdoor              = true
-enable_monitoring                 = true
-monitor_slack_channel             = ""
+enable_monitoring                 = false
 
