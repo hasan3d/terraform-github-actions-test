@@ -31,8 +31,8 @@ module "fatp_azure_web_app_services_hosting" {
   service_health_check_path                 = var.service_health_check_path
   service_health_check_eviction_time_in_min = var.service_health_check_eviction_time_in_min
   enable_service_logs                       = var.enable_service_logs
-  service_log_storage_sas_start             = var.service_log_storage_sas_start
-  service_log_storage_sas_expiry            = var.service_log_storage_sas_expiry
+  service_log_storage_sas_start             = var.service_log_storage_sas_start == "" ? timestamp() : var.service_log_storage_sas_start
+  service_log_storage_sas_expiry            = var.service_log_storage_sas_expiry == "" ? timeadd(timestamp(), "8760h") : var.service_log_storage_sas_expiry
   service_log_level                         = var.service_log_level
   service_log_retention                     = var.service_log_retention
 

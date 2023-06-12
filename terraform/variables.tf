@@ -147,13 +147,13 @@ variable "service_log_retention" {
 variable "service_log_storage_sas_start" {
   description = "Service log sas token start date/time"
   type        = string
-  default     = timestamp()
+  default     = ""
 }
 
 variable "service_log_storage_sas_expiry" {
   description = "Service log sas token start date/time"
   type        = string
-  default     = timeadd(timestamp(), "8760h") # 8760 hours is approximately one year
+  default     = ""
 }
 
 variable "enable_monitoring" {
