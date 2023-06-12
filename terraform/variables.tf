@@ -153,7 +153,7 @@ variable "service_log_storage_sas_start" {
 variable "service_log_storage_sas_expiry" {
   description = "Service log sas token start date/time"
   type        = string
-  default     = data.external.date.result.stdout
+  default     = timeadd(timestamp(), "8760h") # 8760 hours is approximately one year
 }
 
 variable "enable_monitoring" {
