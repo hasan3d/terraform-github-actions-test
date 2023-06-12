@@ -12,4 +12,5 @@ enable_service_logs                = true
 enable_cdn_frontdoor               = true
 cdn_frontdoor_enable_rate_limiting = true
 enable_monitoring                  = false
+service_worker_count               = 2
 

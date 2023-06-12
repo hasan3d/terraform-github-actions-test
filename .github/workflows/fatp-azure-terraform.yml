@@ -1,4 +1,4 @@
-name: 'Provision FATP into Azure via Terraform'
+name: 'Provision FaTP into Azure via Terraform'
 
 on:
   workflow_call:
@@ -29,10 +29,11 @@ env:
   TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }}
   TF_VAR_postgresql_server_admin_username: ${{ secrets.POSTGRESQL_SERVER_ADMIN_USERNAME }}
   TF_VAR_postgresql_server_admin_password: ${{ secrets.POSTGRESQL_SERVER_ADMIN_PASSWORD }}
+  TF_VAR_monitor_email_receivers: ${{ secrets.MONITOR_EMAIL_RECEIVERS }}
 
 jobs:
   terraform-plan:
-    name: 'Provision FATP into Azure via Terraform plan'
+    name: 'Provision FaTP into Azure via Terraform plan'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     outputs:
@@ -61,9 +62,6 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
         terraform_wrapper: false
 
-    - name: Install jq
-      run: sudo apt-get install -y jq
-
     - name: 'Set TF State Key'
       run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -79,9 +77,9 @@ jobs:
           export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
           export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
 
-          terraform init -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}"  \
-                         -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}"  \
-                         -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}"  \
+          terraform init -backend-config="resource_group_name=${{ vars.TF_STATE_RESOURCE_GROUP }}"  \
+                         -backend-config="storage_account_name=${{ vars.TF_STATE_STORAGE_ACCOUNT_NAME }}"  \
+                         -backend-config="container_name=${{ vars.TF_STATE_CONTAINER_NAME }}"  \
                          -backend-config="key=${{ env.TF_ACTION_WORKING_DIR }}/${{ env.TF_STATE_KEY }}" 
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -101,6 +99,7 @@ jobs:
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
         terraform plan -var-file="vars-dev.tfvars" -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
+                          -var="monitor_email_receivers=${TF_VAR_monitor_email_receivers}" \
                           -var="project_name=${TF_VAR_project_name}" -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
@@ -192,9 +191,9 @@ jobs:
           export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
           export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
 
-          terraform init -backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP }}"  \
-                         -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}"  \
-                         -backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}"  \
+          terraform init -backend-config="resource_group_name=${{ vars.TF_STATE_RESOURCE_GROUP }}"  \
+                         -backend-config="storage_account_name=${{ vars.TF_STATE_STORAGE_ACCOUNT_NAME }}"  \
+                         -backend-config="container_name=${{ vars.TF_STATE_CONTAINER_NAME }}"  \
                          -backend-config="key=${{ env.TF_ACTION_WORKING_DIR }}/${{ env.TF_STATE_KEY }}" 
 
     # Download saved plan from artifacts  
