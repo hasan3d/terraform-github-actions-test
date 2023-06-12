@@ -22,7 +22,6 @@ env:
   TF_VERSION: '~>1.4.5'
   TF_ACTION_WORKING_DIR: './terraform'
   TF_STATE_KEY: 'terraform.tfstate'
-  TF_VAR_project_name: ${{ secrets.PROJECT_NAME }}
   TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
   TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
   TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -99,8 +98,7 @@ jobs:
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
         terraform plan -var-file="vars-dev.tfvars" -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
-                          -var="monitor_email_receivers=${TF_VAR_monitor_email_receivers}" \
-                          -var="project_name=${TF_VAR_project_name}" -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
+                          -var="monitor_email_receivers=${TF_VAR_monitor_email_receivers}"  -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         
