@@ -398,4 +398,5 @@ variable "redis_cache_patch_schedule_hour" {
 variable "key_vault_access_users" {
   description = "List of users that require access to the Key Vault. This should be a list of User Principle Names (Found in Active Directory) that need to run terraform"
   type        = list(string)
+  sensitive   = true
 }
