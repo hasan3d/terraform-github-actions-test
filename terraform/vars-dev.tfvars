@@ -1,6 +1,6 @@
 environment                        = "dev"
 project_name                       = "s177d02-ntp"
-service_name                       = "find-a-tpd02"
+service_name                       = "find-a-tp-d02"
 azure_location                     = "West Europe"
 service_offering                   = "National Tutoring Programme"
 aspnetcore_environment             = "Development"
