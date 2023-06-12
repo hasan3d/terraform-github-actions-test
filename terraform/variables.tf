@@ -393,8 +393,3 @@ variable "redis_cache_patch_schedule_hour" {
   type        = number
   default     = 23
 }
-
-variable "key_vault_access_users" {
-  description = "List of users that require access to the Key Vault. This should be a list of User Principle Names (Found in Active Directory) that need to run terraform"
-  type        = string
-}

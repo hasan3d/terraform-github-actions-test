@@ -9,9 +9,7 @@ resource "azurerm_key_vault" "default" {
   purge_protection_enabled    = true
   enabled_for_disk_encryption = true
 
-  dynamic "access_policy" {
-    for_each = data.azuread_user.key_vault_access
-
+  access_policy {
     content {
       tenant_id = data.azurerm_client_config.current.tenant_id
       object_id = data.azurerm_client_config.current.object_id
