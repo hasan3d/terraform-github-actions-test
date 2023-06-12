@@ -224,4 +224,3 @@ jobs:
         inlineScript: |
           az logout
           az cache purge
-          az account clear  
