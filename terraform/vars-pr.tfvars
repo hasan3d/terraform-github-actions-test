@@ -12,5 +12,5 @@ enable_cdn_frontdoor               = true
 cdn_frontdoor_enable_rate_limiting = true
 enable_monitoring                  = true
 service_worker_count               = 2
-virtual_network_address_space      = "172.12.0.0/12"
+virtual_network_address_space      = "172.0.0.0/12"
 service_plan_sku                   = "S1"
