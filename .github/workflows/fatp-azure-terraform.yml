@@ -11,7 +11,6 @@ concurrency: pr-${{ github.event.number }}
 env:
   TF_VERSION: '~>1.4.5'
   TF_VAR_ENVIRONMENT: pr-${{ github.event.number }}
-  TF_PIPELINE_ENV: 'dev'
   TF_ACTION_WORKING_DIR: './terraform'
   TF_STATE_KEY: 'terraform.tfstate'
   TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
@@ -26,7 +25,7 @@ jobs:
   terraform-plan:
     name: 'Provision FaTP into Azure via Terraform plan'
     runs-on: ubuntu-latest
-    environment: ${{ env.TF_PIPELINE_ENV }}
+    environment: 'dev'
     outputs:
       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
@@ -58,7 +57,7 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "TF_STATE_KEY=pr-${{ github.event.pull_request.number }}-terraform.tfstate" >> $GITHUB_ENV
           else
-            echo "TF_STATE_KEY=${{ env.TF_PIPELINE_ENV  }}-terraform.tfstate" >> $GITHUB_ENV
+            echo "TF_STATE_KEY=dev-terraform.tfstate" >> $GITHUB_ENV
           fi
 
     - name: 'Terraform Init'
@@ -154,7 +153,7 @@ jobs:
     name: 'Terraform Apply'
     if: github.ref == 'refs/heads/main' && needs.terraform-plan.outputs.tfplanExitCode == 2
     runs-on: ubuntu-latest
-    environment: ${{ env.TF_PIPELINE_ENV }}
+    environment: 'dev'
     needs: [terraform-plan]
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
