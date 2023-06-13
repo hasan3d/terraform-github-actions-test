@@ -87,7 +87,7 @@ jobs:
         export ARM_CLIENT_SECRET=${{ env.TF_VAR_client_secret }}
         export ARM_TENANT_ID=${{ env.TF_VAR_tenant_id }}
         export ARM_SUBSCRIPTION_ID=${{ env.TF_VAR_subscription_id }}
-        terraform plan -var-file="vars-dev.tfvars" -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
+        terraform plan -var-file="vars-pr.tfvars" -var="postgresql_server_admin_username=${TF_VAR_postgresql_server_admin_username}" \
                           -var="postgresql_server_admin_password=${TF_VAR_postgresql_server_admin_password}" \
                           -var="environment=${TF_VAR_ENVIRONMENT}" \
                           -var="monitor_email_receivers=${TF_VAR_monitor_email_receivers}"  -detailed-exitcode -no-color -out tfplan.out || export exitcode=$?
