@@ -1,6 +1,5 @@
-environment                        = "dev"
-project_name                       = "s177d02-ntp"
-service_name                       = "find-a-tp-d02"
+project_name                       = "s177d01-ntp"
+service_name                       = "find-a-tp"
 azure_location                     = "West Europe"
 service_offering                   = "National Tutoring Programme"
 aspnetcore_environment             = "Development"
@@ -13,4 +12,5 @@ enable_cdn_frontdoor               = true
 cdn_frontdoor_enable_rate_limiting = true
 enable_monitoring                  = true
 service_worker_count               = 2
-
+virtual_network_address_space      = "172.12.0.0/12"
+service_plan_sku                   = "S1"
